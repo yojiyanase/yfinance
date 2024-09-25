@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  # 株式データ取得のルート
+  # get '/stocks', to: 'stocks#index'
 
-  # Defines the root path route ("/")
-  # root "articles#index"
+  # get '/import_sp500_data', to: 'sp500_data#index'
+  # post '/import_sp500_data', to: 'sp500_data#create'
+
+  root 'stocks#index'
 end
