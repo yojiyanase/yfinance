@@ -1,0 +1,17 @@
+# # app/views/sp500_data/create.html.erb
+# <table>
+#   <thead>
+#     <tr>
+#       <th>日付</th>
+#       <th>終値</th>
+#     </tr>
+#   </thead>
+#   <tbody>
+#     <% @sp500_data.each do |datum| %>
+#       <tr>
+#         <td><%= datum.date %></td>
+#         <td><%= datum.close %></td>
+#       </tr>
+#     <% end %>
+#   </tbody>
+# </table>
