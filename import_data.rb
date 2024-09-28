@@ -3,6 +3,7 @@ require "date"
 
 # 1 … CSVファイルのパスを設定する
 csv_file_path = 'db/csv/ACWI_ETF_Stock_Price_History.csv' # ルートディレクトリにスクリプトファイルを、db/csvディレクトリにcsvファイルを置いた場合の記述 
+csv_file_path = 'db/csv/ACWI_ETF_Stock_Price_History2.csv' #Investing.comでダウンロードしたファイルの内容をコピーしたうえで、新しくファイル作成しコピーした内容を貼り付ける
 
 # 2 … CSVファイルからデータを読み込み、Hogesテーブルに登録
 CSV.foreach(csv_file_path, headers: true, liberal_parsing: true) do |row|
