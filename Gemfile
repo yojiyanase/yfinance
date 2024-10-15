@@ -56,6 +56,8 @@ gem 'rake'
 
 gem 'activerecord'
 
+gem "sassc-rails"
+
 # Use Sass to process CSS
 # gem "sassc-rails"
 
