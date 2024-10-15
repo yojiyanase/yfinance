@@ -6,4 +6,6 @@ Rails.application.routes.draw do
   # post '/import_sp500_data', to: 'sp500_data#create'
 
   root 'stocks#index'
+
+  get 'simulations/input_form'
 end

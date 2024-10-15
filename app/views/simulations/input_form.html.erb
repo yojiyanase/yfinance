@@ -1,0 +1,85 @@
+<div class="title_division">
+  <div class="butasan_division">
+    <%= image_tag 'butasan.png', class: 'butasan' %>
+  </div>
+  <h1>過去から積立シミュレーション for Index Fund</h1>
+</div>
+
+<div class="description_division">
+  <p>積立投資を始める際は、「<span class="how_to_image">どのように資産額が変動するかイメージする</span>」ことが重要です。</p>
+  <p>この「過去から積立シミュレーション」をお使いいただければ、過去のインデックスファンドの</p>
+  <p>値動きから毎月定額で積み立てた場合の資産の変動を見ることができます。インデックスファンドの</p>
+  <p>積立投資にお役立てください。</p>
+</div>
+
+<div class="condition_explanation_division" >
+  <%= image_tag 'blue_rectangle.png', class: 'blue_rectangle' %>
+  <h2>基本条件</h2>
+  <p>空欄の「毎月積立額」「積立期間」「リターン」をご入力ください。<br>「積立期間」が終了した時点の、運用成績（＝最終積立金額）を計算します。</p>
+</div>
+
+<div class="input_form" >
+  <%= form_with(model: @simulation, local: true) do |form| %>
+    <div class="choosing_fund" >
+      <div class="choosing_fund_label" >
+        <%= form.label :index_fund, '積立指数', class: "choosing_fund_label_content" %>
+      </div>
+      <div class="choosing_fund_select" >
+        <%= form.select :index_fund, ['S&P500 (SPY)', '全世界株式 (ACWI)'], {}, class: "choosing_fund_select_form" %>
+      </div>
+    </div>
+    <div class="accumulated_amount" >
+      <div class="accumulated_amount_label" >
+        <%= form.label :monthly_amount, '毎月積立額', class: "accumulated_amount_content" %>
+      </div>
+      <div class="accumulated_amount_text" >
+        <%= form.text_field :monthly_amount, class: "accumulated_amount_form" %> <span class="currency_unit" >USドル</span>
+      </div>
+    </div>
+    <div class="accumulated_term" >
+      <div class="accumulated_term_label" >
+        <%= form.label :start_year, '仮想積立期間', class: "accumulated_term_content" %>
+      </div>
+      <div class="accumulated_term_text" >
+        <%= form.text_field :start_year, class: "accumulated_term_form" %><span class="term_unit">年</span>
+        <%= form.text_field :start_month, class: "accumulated_term_form" %><span class="term_unit">月</span>
+        <div class="term_unit_middle">から</div>
+        <%= form.text_field :end_year, class: "accumulated_term_form_middle" %><span class="term_unit">年</span>
+        <%= form.text_field :end_month, class: "accumulated_term_form" %><span class="term_unit">月</span>
+      </div>
+    </div>
+    <div class="accumulated_term_description">
+      <p>※「仮想積立期間」の設定可能な期間は次のとおりです</p>
+      <div class="stock_term_division">
+        <p>・S&P500（SPY）：1993年2月から〇〇年〇月</p>
+        <p>・全世界株式（ACWI）：2008年4月から〇〇年〇月</p>
+      </div>
+    </div>
+
+    <div class="calculation_btn_division">
+    <button type="submit" class="calculator_btn">
+      <div class="icon_div">
+        <%= image_tag 'calculator.png', class: 'calculator_icon' %> 計算結果
+      </div>
+    </button>
+  </div>
+        
+  <% end %>
+</div>
+
+<div class="precautions_division" >
+    <div class="precautions_title_division">
+      <%= image_tag 'precautions.png', class: 'precautions_icon' %>
+      <h3>注意事項</h3>
+    </div>
+    <div class="precautions_description_division">
+      <p>※当該数値はあくまでもシミュレーションであり、将来の成果を約束するものではありません。</p>
+      <p>※申込手数料、税金等は控除しません。</p>
+    </div>
+</div>
+
+
+<% if @result %>
+  <h2>計算結果</h2>
+  <p>...</p>
+<% end %>
