@@ -1,0 +1,10 @@
+<h2>計算結果</h2>
+<p>
+  選択したインデックスファンド: <%= @simulation.index_fund %>
+  <br>
+  毎月積立額: <%= @simulation.monthly_amount %>ドル
+  <br>
+  積立期間: <%= @simulation.start_year %>年<%= @simulation.start_month %>月 ～ <%= @simulation.end_year %>年<%= @simulation.end_month %>月
+  <br>
+  最終的な積立金額: <%= @result[:final_amount] %>ドル
+</p>
