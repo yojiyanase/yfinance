@@ -8,4 +8,6 @@ Rails.application.routes.draw do
   root 'stocks#index'
 
   get 'simulations/input_form'
+  post 'simulations/calculate', to: 'simulations#calculate' # 重複しているルートを削除
+  get 'simulations/result'
 end

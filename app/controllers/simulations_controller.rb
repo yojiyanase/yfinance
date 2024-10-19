@@ -1,23 +1,33 @@
 # app/controllers/simulations_controller.rb
 class SimulationsController < ApplicationController
   def input_form
-    # パラメータ取得
-    # @index_fund = params[:simulation][:index_fund]
-    # @monthly_amount = params[:simulation][:monthly_amount]
-    # @start_year = params[:simulation][:start_year]
-    # @start_month = params[:simulation][:start_month]
-    # @end_year = params[:simulation][:end_year]
-    # @end_month = params[:simulation][:end_month]
+    @simulation = Simulation.new  # フォームオブジェクトのインスタンス化
+  end
 
-    # シミュレーションロジック（別途実装）
-    @result = simulate(@index_fund, @monthly_amount, @start_year, @start_month, @end_year, @end_month)
+  def calculate
+    @simulation = Simulation.new(simulation_params)  # フォームパラメータの取得
+    # 計算処理の実行
+    # CSVデータとの突合処理の実行
+
+    # 計算結果をビューに渡す
+    @result = {
+      # 計算結果をハッシュ形式で格納
+      # total_amount: total_amount,
+      # annualized_return: annualized_return,
+    }
+
+    render 'simulations/result' # 計算結果を表示するビューを指定
+    # redirect_to 'http://localhost:3000/simulations/result' # 計算結果を表示するビューを指定
+
+  end
+
+  def result 
+
   end
 
   private
 
-  def simulate(index_fund, monthly_amount, start_year, start_month, end_year, end_month)
-    # 実際のシミュレーションロジックを実装する
-    # 例：外部APIからインデックスファンドの過去データを取得し、計算する
-    # （詳細は別のブランチで設定）
+  def simulation_params
+    params.require(:simulation).permit(:index_fund, :monthly_amount, :start_year, :start_month, :end_year, :end_month)
   end
 end

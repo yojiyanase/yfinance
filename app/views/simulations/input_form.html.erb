@@ -9,7 +9,7 @@
   <p>積立投資を始める際は、「<span class="how_to_image">どのように資産額が変動するかイメージする</span>」ことが重要です。</p>
   <p>この「過去から積立シミュレーション」をお使いいただければ、過去のインデックスファンドの</p>
   <p>値動きから毎月定額で積み立てた場合の資産の変動を見ることができます。インデックスファンドの</p>
-  <p>積立投資にお役立てください。</p>
+  <p>積立投資にお役立てください。　検証用です！</p>
 </div>
 
 <div class="condition_explanation_division" >
@@ -19,7 +19,7 @@
 </div>
 
 <div class="input_form" >
-  <%= form_with(model: @simulation, local: true) do |form| %>
+  <%= form_with(model: @simulation, local: true, url: simulations_calculate_path, method: :post) do |form| %>
     <div class="choosing_fund" >
       <div class="choosing_fund_label" >
         <%= form.label :index_fund, '積立指数', class: "choosing_fund_label_content" %>
