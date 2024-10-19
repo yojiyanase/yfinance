@@ -16,13 +16,11 @@ class SimulationsController < ApplicationController
       # annualized_return: annualized_return,
     }
 
-    render 'simulations/result' # 計算結果を表示するビューを指定
-    # redirect_to 'http://localhost:3000/simulations/result' # 計算結果を表示するビューを指定
-
+    redirect_to simulations_result_path
   end
 
-  def result 
-
+  def result
+    
   end
 
   private
