@@ -9,11 +9,19 @@ class SimulationsController < ApplicationController
     # 計算処理の実行
     # CSVデータとの突合処理の実行
 
+    start_date = Date.new(@simulation.start_year, @simulation.start_month)
+    end_date = Date.new(@simulation.end_year, @simulation.end_month)
+
+    @matching_data = ImportCsv.where(product_name: @simulation.index_fund)
+                              .where("date >= ?", start_date)
+                              .where("date <= ?", end_date)
+
     total_amount = @simulation.monthly_amount.to_i * 12 * (@simulation.end_year.to_i - @simulation.start_year.to_i)
 
     # セッションに保存
     session[:simulation] = @simulation.attributes
     session[:result] = { total_amount: total_amount }
+    session[:matching_data] = @matching_data.map(&:attributes)
 
     # render 'simulations/result' # 計算結果を表示するビューを指定
     # redirect_to 'http://localhost:3000/simulations/result' # 計算結果を表示するビューを指定
@@ -23,6 +31,7 @@ class SimulationsController < ApplicationController
   def result
     @simulation = Simulation.new(session[:simulation])
     @result = session[:result]
+    @matching_data = session[:matching_data]
   end
 
   private
