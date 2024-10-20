@@ -10,17 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_10_07_120329) do
+ActiveRecord::Schema[7.0].define(version: 2024_10_19_062509) do
   create_table "import_csvs", force: :cascade do |t|
     t.date "date"
-    t.decimal "price", precision: 10, scale: 2
-    t.decimal "open", precision: 10, scale: 2
-    t.decimal "high", precision: 10, scale: 2
-    t.decimal "low", precision: 10, scale: 2
-    t.integer "volume"
-    t.decimal "change_percentage", precision: 5, scale: 2
+    t.decimal "price", precision: 10
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "product_name"
   end
 
   create_table "simulations", force: :cascade do |t|

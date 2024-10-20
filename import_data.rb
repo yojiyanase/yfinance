@@ -1,21 +1,29 @@
 require 'csv'
 require "date"
 
+# bin/rails runner import_data.rb　で実行
+# rails c は、web bash上でbundle exec rails c
+
 # 1 … CSVファイルのパスを設定する
-csv_file_path = 'db/csv/ACWI_ETF_Stock_Price_History.csv' # ルートディレクトリにスクリプトファイルを、db/csvディレクトリにcsvファイルを置いた場合の記述 
-csv_file_path = 'db/csv/ACWI_ETF_Stock_Price_History2.csv' #Investing.comでダウンロードしたファイルの内容をコピーしたうえで、新しくファイル作成しコピーした内容を貼り付ける
+ACWI_file_path = 'db/csv/ACWI_ETF_Stock_Price_History2.csv' # ルートディレクトリにスクリプトファイルを、db/csvディレクトリにcsvファイルを置いた場合の記述 
+SPY_file_path = 'db/csv/SPY_ETF_Stock_Price_History2.csv' #Investing.comでダウンロードしたファイルの内容をコピーしたうえで、新しくファイル作成しコピーした内容を貼り付ける
 
 # 2 … CSVファイルからデータを読み込み、Hogesテーブルに登録
-CSV.foreach(csv_file_path, headers: true, liberal_parsing: true) do |row|
+CSV.foreach(ACWI_file_path, headers: true, liberal_parsing: true) do |row|
 
   ImportCsv.create!(
+    product_name: 'ACWI',
     date: row["Date"],
-    price: row['Price'].to_f,
-    open: row['Open'].to_f,
-    high: row['High'].to_f,
-    low: row['Low'].to_f,
-    volume: row['Vol.'].gsub('M', '').to_i * 1000000,
-    change_percentage: row['Change %'].gsub('%', '').to_f / 100
+    price: row['Price'].to_f
+  )
+end
+
+CSV.foreach(SPY_file_path, headers: true, liberal_parsing: true) do |row|
+
+  ImportCsv.create!(
+    product_name: 'SPY',
+    date: row["Date"],
+    price: row['Price'].to_f
   )
 end
 
