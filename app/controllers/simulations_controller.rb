@@ -9,18 +9,20 @@ class SimulationsController < ApplicationController
     # 計算処理の実行
     # CSVデータとの突合処理の実行
 
-    # 計算結果をビューに渡す
-    @result = {
-      # 計算結果をハッシュ形式で格納
-      # total_amount: total_amount,
-      # annualized_return: annualized_return,
-    }
+    total_amount = @simulation.monthly_amount.to_i * 12 * (@simulation.end_year.to_i - @simulation.start_year.to_i)
 
+    # セッションに保存
+    session[:simulation] = @simulation.attributes
+    session[:result] = { total_amount: total_amount }
+
+    # render 'simulations/result' # 計算結果を表示するビューを指定
+    # redirect_to 'http://localhost:3000/simulations/result' # 計算結果を表示するビューを指定
     redirect_to simulations_result_path
   end
 
   def result
-    
+    @simulation = Simulation.new(session[:simulation])
+    @result = session[:result]
   end
 
   private
