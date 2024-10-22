@@ -5,7 +5,24 @@
   <p>毎月積立額: <%= @simulation.monthly_amount %> USドル</p>
   <p>積立期間: <%= @simulation.start_year %>年<%= @simulation.start_month %>月 から <%= @simulation.end_year %>年<%= @simulation.end_month %>月</p>
   <p>最終積立金額: <%= @result[:total_amount] %> USドル</p>
-  <p>CSVからのデータ: <%= @matching_data %></p>
+  <table>
+  <thead>
+    <tr>
+      <th>日付</th>
+      <th>価格</th>
+      <th>商品名</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @matching_datas.each do |data| %>
+      <tr>
+        <td><%= data[0] %></td>
+        <td><%= data[1] %></td>
+        <td><%= data[2] %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 <% else %>
   <p>シミュレーション結果がありません。</p>
 <% end %>

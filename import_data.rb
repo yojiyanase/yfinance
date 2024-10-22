@@ -10,19 +10,23 @@ SPY_file_path = 'db/csv/SPY_ETF_Stock_Price_History2.csv' #Investing.comでダ�
 
 # 2 … CSVファイルからデータを読み込み、Hogesテーブルに登録
 CSV.foreach(ACWI_file_path, headers: true, liberal_parsing: true) do |row|
+  date_str = row["Date"]
+  date_obj = Date.strptime(date_str, "%m/%d/%Y") # フォーマットはCSVの形式に合わせて調整
 
   ImportCsv.create!(
-    product_name: 'ACWI',
-    date: row["Date"],
+    product_name: '全世界株式 (ACWI)',
+    date: date_obj,
     price: row['Price'].to_f
   )
 end
 
 CSV.foreach(SPY_file_path, headers: true, liberal_parsing: true) do |row|
+  date_str = row["Date"]
+  date_obj = Date.strptime(date_str, "%m/%d/%Y") # フォーマットはCSVの形式に合わせて調整
 
   ImportCsv.create!(
-    product_name: 'SPY',
-    date: row["Date"],
+    product_name: 'S&P500 (SPY)',
+    date: date_obj,
     price: row['Price'].to_f
   )
 end
