@@ -51,8 +51,9 @@
     <div class="accumulated_term_description">
       <p>※「仮想積立期間」の設定可能な期間は次のとおりです</p>
       <div class="stock_term_division">
-        <p>・S&P500（SPY）：1993年2月から〇〇年〇月</p>
-        <p>・全世界株式（ACWI）：2008年4月から〇〇年〇月</p>
+        <p>・S&P500（SPY）：1993年2月から<%= @latest_sp500_date.strftime('%Y年%m月') %></p>
+        <p>・全世界株式（ACWI）：2008年4月から<%= @latest_acwi_date.strftime('%Y年%m月') %></p>
+    </div>
       </div>
     </div>
 

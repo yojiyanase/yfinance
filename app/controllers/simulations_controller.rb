@@ -2,6 +2,9 @@
 class SimulationsController < ApplicationController
   def input_form
     @simulation = Simulation.new  # フォームオブジェクトのインスタンス化
+
+    @latest_sp500_date = latest_date_by_product('S&P500 (SPY)')
+    @latest_acwi_date = latest_date_by_product('全世界株式 (ACWI)')
   end
 
   def calculate
@@ -40,5 +43,11 @@ class SimulationsController < ApplicationController
 
   def simulation_params
     params.require(:simulation).permit(:index_fund, :monthly_amount, :start_year, :start_month, :end_year, :end_month)
+  end
+
+  def latest_date_by_product(product_name)
+    # ImportCsvモデルから、指定したproduct_nameのデータのうち、
+    # dateが最新のレコードのdateを取得
+    ImportCsv.where(product_name: product_name).order(date: :desc).first&.date
   end
 end
