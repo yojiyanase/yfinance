@@ -1,9 +1,18 @@
-<h2>計算結果</h2>
+<div class="title_division">
+  <div class="butasan_division">
+    <%= image_tag 'butasan.png', class: 'butasan' %>
+  </div>
+  <h1>過去から積立シミュレーション for Index Fund</h1>
+</div>
+
 
 <% if @simulation %>
-  <p>選択したファンド: <%= @simulation.index_fund %></p>
-  <p>毎月積立額: <%= @simulation.monthly_amount %> USドル</p>
-  <p>積立期間: <%= @simulation.start_year %>年<%= @simulation.start_month %>月 から <%= @simulation.end_year %>年<%= @simulation.end_month %>月</p>
+  <div class="condition_explanation_division_result" >
+    <%= image_tag 'red_rectangle.png', class: 'red_rectangle' %>
+    <h2>基本条件</h2>
+    <p>選択したファンド: <%= @simulation.index_fund %>、毎月積立額: <%= @simulation.monthly_amount %> USドル、積立期間: <%= @simulation.start_year %>年<%= @simulation.start_month %>月 から <%= @simulation.end_year %>年<%= @simulation.end_month %>月</p>
+  </div>
+
   <p>最終積立金額: <%= @result[:total_amount] %> USドル</p>
   <table>
   <thead>
@@ -26,3 +35,11 @@
 <% else %>
   <p>シミュレーション結果がありません。</p>
 <% end %>
+
+<div class="calculation_btn_division_result">
+  <button type="button" class="calculator_btn_result" onclick="location.href='/simulations/input_form'">
+    <div class="icon_div_result">
+      <%= image_tag 'calculator.png', class: 'calculator_icon' %> 再計算する
+    </div>
+  </button>
+</div>

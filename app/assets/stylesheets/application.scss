@@ -339,3 +339,66 @@ button.calculator_btn {
   }
 
 }
+
+
+.condition_explanation_division_result {
+  margin: 0 auto;
+  width: 85%;
+  max-width: 1200px;
+  display: flex;
+  margin-top: 20px;
+  margin-bottom: 15px;
+
+  .red_rectangle {
+    width: 20px;
+    height: 40px;
+    margin-right: 5px;
+  }
+
+  h2 {
+    font-size: 32px;
+    font-weight: bold;
+    line-height: 40px;
+    margin-right: 30px;
+  }
+
+  p {
+    font-size: 20px;
+    line-height: 40px;
+  }
+}
+
+.calculation_btn_division_result {
+  background-color: #5BB4FD;
+  display: flex;
+  justify-content: center; /* 中央揃え */
+  align-items: center;     /* 垂直方向の中央揃え */
+  width: 200px;
+  height: 65px;
+  margin: 0 auto;
+}
+
+button.calculator_btn_result {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+
+.icon_div_result {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* 画像とテキストの間にスペースを追加 */
+  color: white;
+  font-weight: bold;
+  font-size: 24px;
+}
+
+.calculator_icon {
+  width: 30px; /* 画像の大きさを調整 */
+  height: 30px;
+}
