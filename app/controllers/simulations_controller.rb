@@ -1,8 +1,12 @@
 # app/controllers/simulations_controller.rb
 class SimulationsController < ApplicationController
   def input_form
-    @simulation = Simulation.new  # フォームオブジェクトのインスタンス化
-
+    if session[:simulation]
+      @simulation = Simulation.new(session[:simulation])
+    else
+      @simulation = Simulation.new  # フォームオブジェクトのインスタンス化
+    end
+    
     @latest_sp500_date = latest_date_by_product('S&P500 (SPY)')
     @latest_acwi_date = latest_date_by_product('全世界株式 (ACWI)')
   end
