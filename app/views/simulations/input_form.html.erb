@@ -20,6 +20,9 @@
 
 <div class="input_form" >
   <%= form_with(model: @simulation, local: true, url: simulations_calculate_path, method: :post) do |form| %>
+    <div class="error_messages">
+      <%= render 'shared/error_messages', object: form.object %>
+    </div>
     <div class="choosing_fund" >
       <div class="choosing_fund_label" >
         <%= form.label :index_fund, '積立指数', class: "choosing_fund_label_content" %>
@@ -38,7 +41,7 @@
     </div>
     <div class="accumulated_term" >
       <div class="accumulated_term_label" >
-        <%= form.label :start_year, '仮想積立期間', class: "accumulated_term_content" %>
+        <h3 class="accumulated_term_content">仮想積立期間</h3>
       </div>
       <div class="accumulated_term_text" >
         <%= form.text_field :start_year, class: "accumulated_term_form" %><span class="term_unit">年</span>

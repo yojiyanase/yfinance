@@ -1,0 +1,14 @@
+ja:
+  activerecord:
+    attributes:
+      simulation:
+        monthly_amount: 毎月積立額
+        start_year: 開始年
+        start_month: 開始月
+        end_year: 終了年
+        end_month: 終了月
+    errors:
+      messages:
+        greater_than: "は0より大きい値を入力してください。"
+        less_than_or_equal_to: "は12以下を入力してください。"
+        presence: "を入力してください。"
