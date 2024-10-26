@@ -19,7 +19,7 @@
 </div>
 
 <div class="input_form" >
-  <%= form_with(model: @simulation, local: true, url: simulations_calculate_path, method: :post) do |form| %>
+  <%= form_with(model: @simulation, local: true, url: simulations_calculate_path, method: :post, data: { turbo: false }) do |form| %>
     <div class="error_messages">
       <%= render 'shared/error_messages', object: form.object %>
     </div>

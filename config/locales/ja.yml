@@ -8,7 +8,21 @@ ja:
         end_year: 終了年
         end_month: 終了月
     errors:
-      messages:
-        greater_than: "は0より大きい値を入力してください。"
-        less_than_or_equal_to: "は12以下を入力してください。"
-        presence: "を入力してください。"
+      models:
+        simulations:
+          monthly_amount:
+            not_a_number: は数値で入力してください
+            greater_than: は0より大きい値を入力してください
+          start_year:
+            not_a_number: は数値で入力してください
+            blank: は空欄にすることはできません
+          start_month:
+            greater_than: は0より大きい値を入力してください
+            less_than_or_equal_to: は12以下を入力してください
+            blank: は空欄にすることはできません
+          end_year:
+            not_a_number: は数値で入力してください
+            blank: は空欄にすることはできません
+          end_month:
+            greater_than: は0より大きい値を入力してください
+            less_than_or_equal_to: は12以下を入力してください
