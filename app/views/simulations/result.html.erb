@@ -36,6 +36,25 @@
   <p>シミュレーション結果がありません。</p>
 <% end %>
 
+
+<h2>資産の推移</h2>
+<table>
+  <thead>
+    <tr>
+      <th>日付</th>
+      <th>資産額</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @total_assets.each_with_index do |asset, index| %>
+      <tr>
+        <td><%= @matching_datas[index][0] %></td>
+        <td><%= number_with_precision(asset, precision: 2) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
 <div class="calculation_btn_division_result">
   <button type="button" class="calculator_btn_result" onclick="location.href='/simulations/input_form'">
     <div class="icon_div_result">
