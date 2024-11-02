@@ -48,9 +48,9 @@ gem 'dotenv-rails'
 
 gem 'pycall'
 
-gem 'pry-rails'
+# gem 'pry-rails'
 gem 'pry-byebug'
-gem 'pry-nav'
+# gem 'pry-nav'
 
 gem 'rake'
 

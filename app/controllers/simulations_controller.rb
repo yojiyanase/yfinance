@@ -27,18 +27,19 @@ class SimulationsController < ApplicationController
       @matching_data = ImportCsv.where(product_name: @simulation.index_fund)
                                 .where("date >= ?", start_date)
                                 .where("date <= ?", end_date)
+                                .order(date: :asc)
                                 .pluck(:date, :price, :product_name)
 
       total_amount = @simulation.monthly_amount.to_i * 12 * (@simulation.end_year.to_i - @simulation.start_year.to_i)
 
-      stock_prices = @matching_data.map { |data| data[2] }
-      @assets = calculate_assets(@simulation.monthly_amount, stock_prices)
+      stock_prices = @matching_data.map { |data| data[1] }
+      @total_assets = calculate_assets(@simulation.monthly_amount, stock_prices)
 
       # セッションに保存
       session[:simulation] = @simulation.attributes
       session[:result] = { total_amount: total_amount }
       session[:matching_data] = @matching_data
-      session[:assets] = @assets
+      session[:total_assets] = @total_assets
       # @matching_data = @matching_data.attributes
 
       # render 'simulations/result' # 計算結果を表示するビューを指定
@@ -58,6 +59,7 @@ class SimulationsController < ApplicationController
     @simulation = Simulation.new(session[:simulation])
     @result = session[:result]
     @matching_datas = session[:matching_data]
+    @total_assets = session[:total_assets]
   end
 
   private
@@ -74,25 +76,26 @@ class SimulationsController < ApplicationController
 
   def calculate_assets(monthly_amount, prices)
     balance = 0  # 残高の初期化
-    assets = []
-    prices.each do |price_str|
-      price = price_str.to_f
-      # 購入可能な回数
-      purchase_count = (balance + monthly_amount) / price
-      purchase_count = purchase_count.floor  # 整数化
-  
-      # 購入金額
-      purchase_amount = purchase_count * price
-  
-      # 残高の更新
-      balance += monthly_amount - purchase_amount
-  
-      # 資産額の計算
-      assets << purchase_amount + balance
-  
-      # 次の月の計算のために、残高を更新
-      balance = balance - (purchase_amount - purchase_count * price)
+    buy_count = 0
+    rest_money = 0
+    total_assets = []
+    prices.each do |price|
+      if monthly_amount >= price
+        buy_count += (monthly_amount / price).to_i
+        rest_money += monthly_amount % price
+        total_assets.push(price * buy_count + rest_money)
+      else
+        if monthly_amount + rest_money >= price
+          buy_count += ((monthly_amount + rest_money) / price).to_i
+          rest_money = monthly_amount + rest_money - price
+          total_assets.push(price * buy_count + rest_money)
+        else
+          buy_count = buy_count.to_i
+          rest_money += monthly_amount
+          total_assets.push(price * buy_count + rest_money)
+        end
+      end
     end
-    assets
+    total_assets
   end
 end

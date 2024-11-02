@@ -37,20 +37,19 @@
 <% end %>
 
 
+<h2>資産の推移</h2>
 <table>
   <thead>
     <tr>
       <th>日付</th>
-      <th>価格</th>
-      <th>商品名</th>
+      <th>資産額</th>
     </tr>
   </thead>
   <tbody>
-    <% @assets.each do |asset| %>
+    <% @total_assets.each_with_index do |asset, index| %>
       <tr>
-        <td><%= asset[0] %></td>
-        <td><%= asset[1] %></td>
-        <td><%= asset[2] %></td>
+        <td><%= @matching_datas[index][0] %></td>
+        <td><%= number_with_precision(asset, precision: 2) %></td>
       </tr>
     <% end %>
   </tbody>
