@@ -5,55 +5,70 @@
   <h1>過去から積立シミュレーション for Index Fund</h1>
 </div>
 
-
 <% if @simulation %>
   <div class="condition_explanation_division_result" >
     <%= image_tag 'red_rectangle.png', class: 'red_rectangle' %>
     <h2>基本条件</h2>
     <p>選択したファンド: <%= @simulation.index_fund %>、毎月積立額: <%= @simulation.monthly_amount %> USドル、積立期間: <%= @simulation.start_year %>年<%= @simulation.start_month %>月 から <%= @simulation.end_year %>年<%= @simulation.end_month %>月</p>
   </div>
-
-  <p>最終積立金額: <%= @result[:total_amount] %> USドル</p>
-  <table>
-  <thead>
-    <tr>
-      <th>日付</th>
-      <th>価格</th>
-      <th>商品名</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @matching_datas.each do |data| %>
-      <tr>
-        <td><%= data[0] %></td>
-        <td><%= data[1] %></td>
-        <td><%= data[2] %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
 <% else %>
   <p>シミュレーション結果がありません。</p>
 <% end %>
 
+<div class="graph_section" >
+  <canvas id="myChart"></canvas>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+  var ctx = document.getElementById('myChart');
 
-<h2>資産の推移</h2>
-<table>
-  <thead>
-    <tr>
-      <th>日付</th>
-      <th>資産額</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @total_assets.each_with_index do |asset, index| %>
-      <tr>
-        <td><%= @matching_datas[index][0] %></td>
-        <td><%= number_with_precision(asset, precision: 2) %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+  var labels_date = [];
+  var asset_datas = [];
+  <% @total_assets.each_with_index do |asset, index| %>
+    asset_datas.push('<%= number_with_precision(asset, precision: 2) %>');
+  <% end %>
+
+  <% @matching_datas.each do |data| %>
+    labels_date.push('<%= data %>');
+  <% end %>
+
+  var accumulated_amount = [];
+  <% (1..@matching_datas.length).each do |i| %>
+    accumulated_amount.push('<%= @simulation.monthly_amount * i %>');
+  <% end %>
+
+  var myChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+          labels: labels_date,
+          datasets: [{
+              label: '資産額',
+              data: asset_datas,
+              backgroundColor: [
+                  'rgba(255, 99, 132, 0.2)',
+              ],
+              borderColor: [
+                  'rgba(255, 99, 132, 1)',
+              ],
+              borderWidth: 1,
+              fill: true
+          }, {
+            label: '累積積立額',
+            data: accumulated_amount,
+            backgroundColor: 'rgba(0, 123, 255, 0.2)',
+            borderColor: 'rgba(0, 123, 255, 1)',
+            fill: true,
+          }]
+      },
+      options: {
+          scales: {
+              y: {
+                  beginAtZero: true
+              }
+          }
+      }
+  });
+  </script>
+</div>
 
 <div class="calculation_btn_division_result">
   <button type="button" class="calculator_btn_result" onclick="location.href='/simulations/input_form'">
