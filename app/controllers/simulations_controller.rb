@@ -24,29 +24,12 @@ class SimulationsController < ApplicationController
       start_date = Date.new(@simulation.start_year, @simulation.start_month)
       end_date = Date.new(@simulation.end_year, @simulation.end_month)
 
-      @matching_data = ImportCsv.where(product_name: @simulation.index_fund)
-                                .where("date >= ?", start_date)
-                                .where("date <= ?", end_date)
-                                .order(date: :asc)
-                                .pluck(:date, :price, :product_name)
-
       total_amount = @simulation.monthly_amount.to_i * 12 * (@simulation.end_year.to_i - @simulation.start_year.to_i)
-
-      stock_prices = @matching_data.map { |data| data[1] }
-      @total_assets = calculate_assets(@simulation.monthly_amount, stock_prices)
-
-      @matching_date_data = ImportCsv.where(product_name: @simulation.index_fund)
-                                     .where("date >= ?", start_date)
-                                     .where("date <= ?", end_date)
-                                     .order(date: :asc)
-                                     .pluck(:date)
-
-      @matching_date_data = @matching_date_data.map { |date| date.strftime("%Y-%m") }
 
       # セッションに保存
       session[:simulation] = @simulation.attributes
-      session[:matching_data] = @matching_date_data
-      session[:total_assets] = @total_assets
+      # session[:matching_data] = @matching_date_data
+      # session[:total_assets] = @total_assets
       # @matching_data = @matching_data.attributes
 
       # render 'simulations/result' # 計算結果を表示するビューを指定
@@ -64,8 +47,14 @@ class SimulationsController < ApplicationController
 
   def result
     @simulation = Simulation.new(session[:simulation])
-    @matching_datas = session[:matching_data]
-    @total_assets = session[:total_assets]
+    
+    csv_date_data = get_date_data_from_csv(@simulation)
+    csv_cut_date_data = cut_date_data(csv_date_data)
+    @matching_datas = csv_cut_date_data
+
+    matching_data = get_total_assets_from_csv(@simulation)
+    stock_prices = matching_data.map { |data| data[1] }
+    @total_assets = calculate_assets(@simulation.monthly_amount, stock_prices)
   end
 
   private
@@ -78,6 +67,32 @@ class SimulationsController < ApplicationController
     # ImportCsvモデルから、指定したproduct_nameのデータのうち、
     # dateが最新のレコードのdateを取得
     ImportCsv.where(product_name: product_name).order(date: :desc).first&.date
+  end
+
+  def get_date_data_from_csv(form_data)
+    start_date = Date.new(form_data.start_year, form_data.start_month)
+    end_date = Date.new(form_data.end_year, form_data.end_month)
+
+    ImportCsv.where(product_name: form_data.index_fund)
+                                     .where("date >= ?", start_date)
+                                     .where("date <= ?", end_date)
+                                     .order(date: :asc)
+                                     .pluck(:date)
+  end
+
+  def cut_date_data(date_data)
+    date_data.map { |date| date.strftime("%Y-%m") }
+  end
+
+  def get_total_assets_from_csv(form_data)
+    start_date = Date.new(form_data.start_year, form_data.start_month)
+    end_date = Date.new(form_data.end_year, form_data.end_month)
+
+    ImportCsv.where(product_name: form_data.index_fund)
+             .where("date >= ?", start_date)
+             .where("date <= ?", end_date)
+             .order(date: :asc)
+             .pluck(:date, :price, :product_name)
   end
 
   def calculate_assets(monthly_amount, prices)
